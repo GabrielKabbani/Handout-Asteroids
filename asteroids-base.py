@@ -20,6 +20,24 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+#Parte 1: Adicionando uma nave
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+ 
+        player_img=pygame.image.load(path.join(img_dir,"playerShip1_orange.png)).convert()
+        self.image=player_img
+        
+        self.image=pygame.transform.scale(player_img,(50,38))
+        
+        self.image.set_colorkey(BLACK)
+        
+        self.rect=self.image.get_rect()
+        
+        self.rect.centerx= WIDTH/2
+        self.rect.bottom= HEIGHT - 10
+       
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -57,6 +75,7 @@ try:
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
+        all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
