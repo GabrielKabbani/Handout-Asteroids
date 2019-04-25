@@ -55,6 +55,12 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
 
+player=Player()
+
+all_sprites=pygame.sprite.Group()
+all_sprites.add(player)
+
+
 # Comando para evitar travamentos.
 try:
     
