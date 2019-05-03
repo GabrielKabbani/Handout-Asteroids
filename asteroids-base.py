@@ -158,6 +158,33 @@ class Explosion (pygame.sprite.Sprite):
         
         #Controle de ticks de animação: troca de imagem a cada self.frame_ticks milissegundos
         self.frame_ticks=50
+        
+    def update(self):
+        #verifica o tick atual.
+        now=pygame.time.get_ticks()
+        
+        #verifica quantos ticks se passaram desde a ultima mudança de frame.
+        elapsed_ticks=now-self.last_update
+        
+        #Se já está na hora de mudar de imagem.
+        if elapsed_ticks>self.frame_ticks:
+            #Marca o tick da nova imagem.
+            self.last_update=now
+            
+            #avanca um quadro.
+            self.frame+=1
+            
+            #verifica se ja chegou no final da animacao.
+            if self.frame == len(self.explosion_anim):
+                #se sim, tchau explosao!
+                self.kill()
+                
+            else:
+                #Se ainda nao cheogu ao fim da explosao, troca de imagem.
+                center=self.rect.center
+                self.image=self.explosion_anim[self.frame]
+                self.rect=self.image.get_rect()
+                self.rect.center=center
             
 #carrega todos os assets de uma vez só
 def load_assets(img_dir,snd_dir):
@@ -278,6 +305,10 @@ try:
             m = Mob(assets["mob_img"]) 
             all_sprites.add(m)
             mobs.add(m)
+            
+            #no lugar do meteoro antigo, adicionar uma explosão.
+            explosao=Explosion(hit.rect.center, assets["explosion_anim"])
+            all_sprites.add(explosao)
         
         # Verifica se houve colisão entre nave e meteoro
         hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
